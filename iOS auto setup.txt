@@ -1,0 +1,60 @@
+iOS-Cloud-Automation
+All Python scripts for iOS Cloud Automation
+Projects/Branches:
+1.	DeviceTrain - Device Certification for AT&T, BT and WL Prod in 21.X
+2.	DeploymentSmoke - Deployment tests for the following Customers and environments: AT&T Prod/STG, BT Prod/STG, WL Prod/QA, TelkomSigma STG, SquareTrade Prod/STG, Straight Talk Prod/STG, Simple Mobile Prod/STG, Total Wireless Prod/STG, Frontier STG, Kitamura Dev, SFR Prod/STG, Proximus Prod
+Overview of Process:
+1.	To execute the scripts, a user must remote into one of the Execution machines located at the Bridgewater office
+2.	The desired script will be executed on that machine, to avoid issues with latency and VPN
+3.	To check the results when complete, view the Results folder within the Cloud_Automation folder on the desktop
+One-time Execution Machine Setup:
+1.	Install Homebrew and add it to the top of your PATH environment variable
+2.	Install Python3 via "brew install python"
+3.	Install all required Python packages using "pip3 install <package_name>": xlsxwriter, requests, selenium, appium-python-client, Pillow
+4.	Install all required packages using "brew install <package_name>": git, appium
+5.	Create blank folder structure for "Cloud_Automation"
+6.	Run "git clone https://github.com/chrisgraham24/ios-cloud-automation.git /Users/xyz123/Desktop/Cloud_Automation/Scripts"
+To Run Scripts:
+1.	Download Chrome and setup Chrome Remote Desktop (CRD) using the following gmail account: ios.cloud.automation@gmail.com / Automation1
+2.	Remote into either the Execution MacMini (Seetest01 / Password01) or the Execution MacBook (QATest / QATest) using PIN 123456
+3.	Run "cd /Users/xyz123/Desktop/Cloud_Automation/Scripts" and checkout the desired codebranch, e.g "git checkout DeploymentSmoke"
+4.	Run "git pull" to ensure it is the latest code available
+5.	Run script, e.g "python3 /Users/xyz123/Desktop/Cloud_Automation/Scripts/21.X-Cloud.py"
+6.	Follow all on-screen prompts to choose customer, build, account and device (see Build Setup below if needed)
+7.	Login to SeeTest at 10.11.100.34 using 'ios.automation / Automation1' to see the running tests (can be done on personal computer)
+Device Setup:
+1.	Remove all Cloud contact syncing
+2.	Connect to 5ghz WiFi
+3.	Install Pocket Geek Cloud and grant Trust in Settings (this holds the provisioning profile)
+4.	Assign device to MCT SeeTest project
+5.	Add device to device_file for corresponding branch, e.g Device Train
+6.	Add device to lists in main script for corresponding branch, e.g Device Train
+7.	Remove excessive content on device, e.g 20,000 photos
+Build Setup:
+1.	Upload Playstore Debug build to SeeTest using a unique name for the build, e.g 'BT-21.2.36-SynchronossEnterpriseDebug'
+2.	Once uploaded, select the app in Applications and go to Edit and deselect 'Allow Profile Resign'
+Important Notes:
+1.	It is best to not exceed 2 or 3 concurrent runs on these remote machines
+2.	The SIM for att1 account is in 12.1 device (Cg auto black). The SIM for att2 account is in 6.3 device (iPhone (2)_2). 9.2 device has att3 (stage) SIM
+3.	If a test/flow fails, the remainder will be skipped and the next will start. To re-run that test specifically, edit the customer_file and re-run
+4.	Occasionally, to speed up tests, accounts will need to be purged for excessive: photos, videos, contacts, albums, playlists
+5.	When clearing content from accounts, make sure account still has photos, videos, screenshots, and the same generic person album occurs first
+Troubleshooting:
+1.	If you experience issues remoting into machine, adjust 'scale to fit' or 'resize to fit' after connecting to the machine in CRD settings
+2.	If a script needs to be killed and re-run, press ctrl+c in the terminal window and cancel all Queued instances in SeeTest
+3.	If the assetDump app is crashing on the device, try rebooting in SeeTest. If it persists, report to Howard Shere
+4.	If a script is failing, check the Error Screenshots folder for obvious issues
+5.	If a script continues to fail, check the inputs in the terminal window for account, build etc. Make sure correct build is used and has been uploaded
+6.	Make sure the device you are picking is online and available on SeeTest, if you are running into immediate errors
+7.	If scripts are failing for language/spelling, make sure the region/language are set to English/US in device settings
+If 'git pull' does not work:
+1.	Delete /Scripts folder and remove from trash
+2.	Create blank /Scripts folder
+3.	Cd into this folder
+4.	Run ‘git init’
+5.	Run ‘git clone https://github.com/chrisgraham24/ios-cloud-automation.git'
+6.	Cd into /ios-cloud-automation folder that was created
+7.	Run ‘git branch -a’
+8.	‘Run git checkout DeploymentSmoke’ (or whichever branch you want — they will be listed in step #7)
+9.	Then going forward, you will need to cd into iOS-cloud-automation folder to run ‘git pull’ and other commands (not /Scripts).
+
